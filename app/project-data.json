@@ -1,0 +1,46 @@
+{
+  "projects": [
+    {
+      "name": "Nebula Migration",
+      "owner": "Maya Chen",
+      "status": "On Track",
+      "recentActivity": "Database cutover rehearsal completed 2h ago",
+      "priority": "High"
+    },
+    {
+      "name": "Aurora Redesign",
+      "owner": "Liam Brooks",
+      "status": "At Risk",
+      "recentActivity": "Accessibility review flagged navigation updates",
+      "priority": "Medium"
+    },
+    {
+      "name": "Comet Analytics",
+      "owner": "Priya Nair",
+      "status": "Blocked",
+      "recentActivity": "Blocked on warehouse credentials from vendor",
+      "priority": "High"
+    },
+    {
+      "name": "Fenwick Onboarding",
+      "owner": "Noah Martinez",
+      "status": "Complete",
+      "recentActivity": "Final enablement checklist signed off yesterday",
+      "priority": "Low"
+    },
+    {
+      "name": "Solstice API",
+      "owner": "Ava Thompson",
+      "status": "On Track",
+      "recentActivity": "PR #42 merged and staging deploy verified",
+      "priority": "Medium"
+    },
+    {
+      "name": "Harbor Mobile App",
+      "owner": "Ethan Wright",
+      "status": "At Risk",
+      "recentActivity": "Crash reports triaged for the beta build",
+      "priority": "Low"
+    }
+  ]
+}

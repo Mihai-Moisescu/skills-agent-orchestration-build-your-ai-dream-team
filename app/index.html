@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project Pulse</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Project Pulse</h1>
+    <p>Real-time visibility into team delivery signals.</p>
+  </header>
+
+  <main class="dashboard" aria-label="Project dashboard">
+    <section class="dashboard__grid" id="project-list" aria-live="polite"></section>
+  </main>
+
+  <template id="project-card-template">
+    <article class="project-card">
+      <h3 class="project-card__name"></h3>
+      <p class="project-card__owner"></p>
+      <div class="project-card__badges">
+        <span class="status-badge"></span>
+        <span class="priority-badge"></span>
+      </div>
+      <p class="project-card__activity"></p>
+    </article>
+  </template>
+
+  <footer>
+    <p>Project Pulse dashboard rendered by index.html.</p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const projectList = document.querySelector("#project-list");
+      const template = document.querySelector("#project-card-template");
+
+      const slugify = (value) => String(value)
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, "-");
+
+      const showMessage = (message) => {
+        projectList.textContent = "";
+        const messageElement = document.createElement("p");
+        messageElement.textContent = message;
+        projectList.appendChild(messageElement);
+      };
+
+      const renderProject = (project) => {
+        const cardFragment = template.content.cloneNode(true);
+        const card = cardFragment.querySelector(".project-card");
+        const statusBadge = card.querySelector(".status-badge");
+        const priorityBadge = card.querySelector(".priority-badge");
+
+        card.querySelector(".project-card__name").textContent = project.name;
+        card.querySelector(".project-card__owner").textContent = `Owner: ${project.owner}`;
+        statusBadge.textContent = project.status;
+        statusBadge.classList.add(`status-badge--${slugify(project.status)}`);
+        priorityBadge.textContent = project.priority;
+        priorityBadge.classList.add(`priority-badge--${slugify(project.priority)}`);
+        card.querySelector(".project-card__activity").textContent = project.recentActivity;
+
+        projectList.appendChild(cardFragment);
+      };
+
+      fetch("./project-data.json")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Unable to load project data: ${response.status} ${response.statusText}`);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          const projects = Array.isArray(data.projects) ? data.projects : [];
+          projectList.textContent = "";
+
+          if (projects.length === 0) {
+            showMessage("No projects to display");
+            return;
+          }
+
+          projects.forEach(renderProject);
+        })
+        .catch((error) => {
+          console.error("Project Pulse failed to load project-data.json", error);
+          showMessage("Unable to load project data. Please try again later.");
+        });
+    });
+  </script>
+</body>
+</html>
